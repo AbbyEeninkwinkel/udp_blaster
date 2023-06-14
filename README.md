@@ -1,7 +1,6 @@
 # UDP Blaster
-Credits for the basis Inet engine idea go to:<br>
-Yves Chevallier<br>
-https://github.com/nowox/udp-test<br>
+Credits for the basis Inet engine idea go to 
+Yves Chevallier https://github.com/nowox/udp-test<br>
 <br>
 <br>
 This tool is suited for tuning and optimizing performance of log collectors.<br>
