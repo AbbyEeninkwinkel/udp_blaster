@@ -1,5 +1,5 @@
 //########################################################
-// UDP Blaster v1.0 2023
+// UDP Blaster v1.1 2023
 // By Abby Eeninkwinkel
 // Credits for the basis Inet engine idea:
 //      Yves Chevallier https://github.com/nowox/udp-test
@@ -44,7 +44,7 @@ int exit_with_instruction(int action, int value)
            break;
   }
  printf ("UDP Blaster ver1.0 by Abby Eeninkwinkel\n");
- printf ("Usage: udp_blaster [dest. address] [port 1..65535] [speed packets/s) [message]\n");
+ printf ("Usage: udp_blaster [dest. address] [port 1..65535] [speed packets/s] [message]\n");
  exit(1);
 }
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
        } while (delta_us < timeframepersend);
      if (cycle < 2)
         {
-         printf("Sorry. You system is throtteling udp packets with the requested speed. Reduce packert per seconds.\n");
+         printf("Sorry. You system is throtteling udp packets with the requested speed. Reduce packers per seconds.\n");
          return -1;
         }
     } 
