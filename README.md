@@ -28,7 +28,8 @@ Say we want to send this message at an interval of 100 packets per second to a l
 
 ```
 ./udp_blaster 127.0.0.1 2450 100 "<34>Oct 11 22:14:15 mymachine su: 'su root' failed for Joe on /dev/pts/8"
-'''
+```
+
 Simple as that! <br>
 
 Success with the tuning!<br>
