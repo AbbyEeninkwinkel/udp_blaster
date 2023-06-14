@@ -1,35 +1,17 @@
-# UDP Benchmark for MILA project
+# UDP Blaster
 
-This benchmark is composed of three files:
-
-- `client.c` that sends sub-images
-- `server.c` that receive sub.images
-- `common.h` to configure the server port
-
-To build the project simply type:
-
-```
-make
-```
-
-Then run the server first on the first server, then the client on another one
+This tool is suited for tuning and optimizing performance of log collectors.<br>
+It simulest sendin a supplied log message to the log collector.<br>
+From a cozy 1 message per second to a flooding 100.000 messages per second if you system can handle that :)<br>
+Currently it support UPD only and runs native on Linux.<br>
+# How to build
+clone this repo to your lnux machine<br>
+make the executable by excuting:<br>
 
 ```
-$ ./client
-Build Data...
-Configure socket...
-Send UDP data...
-Time to send 1000 subimages: 2.116311[s]
-Finished...
+make 
 ```
-
-```
-$ ./server
-Configure server...
-Bind socket...
-Listening...
-Total bytes read 33166000
-Time to receive 1442000 subimages: 0.169864[s]
-Estimated bandwidth 195.250 Mbits/s
-Finished...
-```
+Run the file and see the possible options.<br>
+Success with the tuning!<br>
+<hr>
+Abby Eeninkwinkel 2023
