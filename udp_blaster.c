@@ -1,5 +1,5 @@
 //########################################################
-// UDP Blaster v1.3 2024
+// UDP Blaster v1.2 2024
 // By Abby Eeninkwinkel
 // Credits for the basis Inet engine idea:
 //      Yves Chevallier https://github.com/nowox/udp-test
@@ -55,7 +55,7 @@ int exit_with_instruction(int action, int value)
    default:
            break;
   }
- printf ("UDP Blaster ver1.3 by Abby Eeninkwinkel\n");
+ printf ("UDP Blaster ver1.2 by Abby Eeninkwinkel\n");
  printf ("Usage: udp_blaster [dest. address] [port 1..65535] [speed packets/s] [message]\n");
  printf ("options:\n");
  // printf ("   -i         ignore system throtteling break\n" ); New feature yet to come

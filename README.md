@@ -4,7 +4,7 @@ Yves Chevallier https://github.com/nowox/udp-test<br>
 <br>
 <br>
 This tool is suited for tuning and optimizing the performance of log collectors.<br>
-But not limited to log collection, you may use it for any udp receiving device under test.<br>
+But not limited to log collection, you may use it for any UDP receiving device under test.<br>
 It simulates sending a supplied log message to a log collector at a rate of a cozy 1 message per second to a flooding 100.000 messages per second if you system can handle that :)<br>
 Currently it supports UPD only and runs native on Linux.<br>
 
@@ -15,6 +15,9 @@ Make the executable by executing:<br>
 ```
 make
 ```
+
+You need GCC installed and other C libraries depending on you distribution.
+
 # How to run
 
 Run the file and see the possible options.<br>
