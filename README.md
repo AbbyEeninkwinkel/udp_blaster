@@ -61,6 +61,14 @@ Consider for example:
 <instance 1> && <instance 2> && fg
 
 ```
+# Advanced
+
+Getting information from the interface your are blasting at:
+
+```
+ethtool --statistics [your interface] | grep tx
+
+```
 
 <hr>
 Abby Eeninkwinkel 2023 & 2024
