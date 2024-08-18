@@ -1,5 +1,5 @@
 # UDP Blaster
-Credits for the basic Inet engine idea go to 
+Credits for the basic Inet engine idea go to
 Yves Chevallier https://github.com/nowox/udp-test<br>
 <br>
 <br>
@@ -13,9 +13,9 @@ Clone this repo to your Linux machine<br>
 Make the executable by executing:<br>
 
 ```
-make 
+make
 ```
-# How to run 
+# How to run
 
 Run the file and see the possible options.<br>
 
@@ -33,5 +33,31 @@ Simple as that! <br>
 
 Success with the tuning!<br>
 
+# Labeling messages
+
+In the payload put the text [SEQUENCE] anywhere your like. UDP Blaster will inject a hexadecimal sequence number on the same spot.
+
+# Getting performance
+
+This little program is not mutitasking (yet) and opens only 1 socket at a time. <br>
+You might get something like 10KPS to 20KPS on a normal machine. <br>
+UDP Blaster will signal you when reaching the limit: <br>
+
+```
+Sorry. Unable to run faster on this one socket; try reducing packets per second or launch multiple instances.
+
+```
+
+<br>
+If you need more KPS simply run multiple instances. <br>
+<br>
+Consider for example:
+
+
+```
+<instance 1> && <instance 2> && fg
+
+```
+
 <hr>
-Abby Eeninkwinkel 2023
+Abby Eeninkwinkel 2023 & 2024
