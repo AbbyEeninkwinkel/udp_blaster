@@ -1,5 +1,5 @@
 //########################################################
-// UDP Blaster v1.2 2024
+// UDP Blaster v1.3 2024
 // By Abby Eeninkwinkel
 // Credits for the basis Inet engine idea:
 //      Yves Chevallier https://github.com/nowox/udp-test
@@ -55,9 +55,11 @@ int exit_with_instruction(int action, int value)
    default:
            break;
   }
- printf ("UDP Blaster ver1.1 by Abby Eeninkwinkel\n");
+ printf ("UDP Blaster ver1.3 by Abby Eeninkwinkel\n");
  printf ("Usage: udp_blaster [dest. address] [port 1..65535] [speed packets/s] [message]\n");
- printf ("       adding [SEQUENCE] in your message will generate a hexadecimal sequence number exactly in that placeholder\n");
+ printf ("options:\n");
+ // printf ("   -i         ignore system throtteling break\n" ); New feature yet to come
+ printf ("   [SEQUENCE] in your message will generate a hexadecimal sequence number exactly in that placeholder\n");
  exit(1);
 }
 
@@ -74,11 +76,10 @@ int main(int argc, char **argv)
   long   delta_us;
   int    sockfd;
   int    use_sequence = FALSE;
-  unsigned long prev_packet_nr = 0;
+  long   prev_packet_nr = 0;
   char   sequence_str[9];
   int    i, prt_timer = 0;
-
-  char * sequence_pos;
+  char   * sequence_pos;
   struct sockaddr_in destaddr;
 
   signal(SIGINT, INThandler);
@@ -101,16 +102,16 @@ int main(int argc, char **argv)
   if (strlen(saddress) == 0) exit_with_instruction (5, 0);
   if (strlen(argv[2]) > 6) exit_with_instruction (6, 0);
   if ((sport = atol(argv[2])) < 1 || sport > 65535)  exit_with_instruction (6, 0);
+
   printf("<~>~<~>~<~>~<~>~<~><~>~<~>~<~>~<~>\n");
   if (use_sequence)
      printf (" Inject sequence: yes\n");
      else
      printf (" Inject sequence: no\n");
-  printf("\
- Destination: %s:%i\n\
- With payload: %s.... [%lu] bytes\n\
- Attempting %li packets per second.\n\
- Timeframe: %li\xC2\xB5s\n", saddress, sport, payload_short, strlen(payload), packetspersec,timeframepersend);
+  printf(" Destination: %s:%i\n", saddress, sport);
+  printf(" With payload: %s.... [%lu] bytes\n", payload_short, strlen(payload));
+  printf(" Attempting %li packets per second.\n", packetspersec);
+  printf(" Timeframe: %li\xC2\xB5s\n", timeframepersend);
   printf(" Configure the socket... ");
   sockfd = socket(AF_INET, SOCK_DGRAM, 0);
   if (sockfd < 0)
@@ -124,9 +125,9 @@ int main(int argc, char **argv)
   destaddr.sin_addr.s_addr = inet_addr(saddress);
   destaddr.sin_port = htons(sport);
   printf(" Blasting UDP data...\n");
-
-   do
+  while (1)
     {
+     // untill stopped
      packet_nr += 1;
      if (packet_nr > 0xffffffff) packet_nr = 0;
      if (use_sequence)
@@ -141,25 +142,33 @@ int main(int argc, char **argv)
          return EXIT_FAILURE;
         }
      clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-     if (start.tv_sec - prt_timer > 0)
-        {prt_timer = start.tv_sec;
-         printf("...\n%08lX %ld pps\n", packet_nr, (packet_nr - prev_packet_nr));
+     if (start.tv_sec - prt_timer > 0) //do something every second
+        {
+         prt_timer = start.tv_sec;
+         // print running stats
+         printf("...\n%08lX %05ld pps\n", packet_nr, (packet_nr - prev_packet_nr));
+         // tune the timer
+         if ((packet_nr - prev_packet_nr) < packetspersec)
+            timeframepersend -= 1;
+         if ((packet_nr - prev_packet_nr) > packetspersec)
+            timeframepersend += 1;
          prev_packet_nr = packet_nr;
         }
 
      cycle = 0;
      do
        {
+        // waste some time untill next packet is to be sent
         cycle ++;
         clock_gettime(CLOCK_MONOTONIC_RAW, &end);
         delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
        } while (delta_us < timeframepersend);
-//     if (cycle < 2)
-//        {
-//         printf("Sorry. You system is throtteling udp packets with the requested speed. Reduce packers per seconds.\n");
-//         return -1;
-//        }
-    }
-    while (1);
+
+    if (cycle < 2)
+       {
+        printf("Sorry. Unable to run faster on this one socket; try reducing packets per second or launch multiple instances.\n");
+        //return -1;
+       }
+  } // end while(1) loop
     return EXIT_SUCCESS;
 }
